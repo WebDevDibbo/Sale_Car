@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div style='margin:90px 0' class='px-4 d-flex flex-wrap align-items-center pt-4'>
+    <div class='col-6 '>
+    <h1 class='mb-3'>Your Ultimate Car Buying Destination</h1>
+    <p>We offer a seamless car buying experience with a diverse selection and excellent customer service.</p>
+    </div>
+    <div class='col-6 d-flex justify-content-center'>
+    <img class='w-75' src="{% static 'car.jpg' %}" alt="">
+    </div>
+</div>
+
+<div class="p-4 mt-5">
+  <h3 class='fw-bold text-center mb-5'>All Brands</h3>
+    <div class="rounded-3 p-3 text-center">
+      {% for br in  brand%}
+        <button class='btn btn-info me-4'> <a class='text-decoration-none text-black' href="{% url 'brand_wise_post' br.slug %}">{{br.name}}</a> </button>
+      {% endfor %}
+    </div>
+  </div>
+    <div class=" p-4">
+      <h4 class='text-center'>{{data | length}} results found</h4>
+      <div class="my-4 ">
+        <div class="d-flex flex-wrap justify-content-center gap-4">
+          {% for car in data %}
+          <div class="card" style="width: 18rem;">
+            <img style='height:25vh;' src="{{car.image.url}}" class="card-img-top object-fit-cover" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{car.title}}</h5>
+              <p class="card-text">{{car.description | slice:'1:90'}}</p>
+              <h5 class='mb-3'>Price : <small class='text-danger'> ${{car.price}}</small> </h5>
+              <button class='btn btn-success disabled me-2'>{{car.brand}}</button>
+              <button class="btn btn-primary"><a class='text-decoration-none text-white' href="{% url 'detail_post' car.id%}">View Details</a></button>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+{% endblock  %}
